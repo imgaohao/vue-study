@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>列表渲染</title>
+    <script src="../js/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 1. 基础用法：遍历数组 -->
+        <h3>1. 基础用法 - 遍历数组</h3>
+        <ul>
+            <li v-for="(item, index) in items" :key="index">
+                {{ index }} - {{ item.name }}: {{ item.value }}
+            </li>
+        </ul>
+
+        <!-- 2. 遍历对象 -->
+        <h3>2. 遍历对象</h3>
+        <ul>
+            <li v-for="(value, key, index) in user" :key="key">
+                {{ index }}. {{ key }}: {{ value }}
+            </li>
+        </ul>
+
+        <!-- 3. 遍历整数范围 -->
+        <h3>3. 遍历整数范围</h3>
+        <span v-for="n in 5" :key="'range-' + n">{{ n }} </span>
+
+        <!-- 4. 使用of替代in -->
+        <h3>4. 使用 of 替代 in</h3>
+        <ul>
+            <li v-for="item of items" :key="item.name">{{ item.name }}</li>
+        </ul>
+
+        <!-- 5. 遍历嵌套数组 -->
+        <h3>5. 遍历嵌套数组</h3>
+        <ul>
+            <li v-for="(item, index) in items" :key="index">
+                {{ item.name }}
+                <ul v-if="item.children">
+                    <li v-for="(subItem, subIndex) in item.children" :key="subIndex">
+                        -- {{ subItem }}
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+        <!-- 6. 使用template进行分组渲染 -->
+        <h3>6. 使用 template 分组渲染</h3>
+        <ul>
+            <template v-for="item in items">
+                <li :key="item.name + '-1'">第一项: {{ item.name }}</li>
+                <li :key="item.name + '-2'">第二项: {{ item.value }}</li>
+            </template>
+        </ul>
+
+        <!-- 7. v-for与v-if同时使用（v-for优先级更高） -->
+        <h3>7. v-for 与 v-if 同时使用</h3>
+        <ul>
+            <li v-for="item in items" v-if="item.name !== 'b'" :key="item.name">
+                {{ item.name }}
+            </li>
+        </ul>
+
+        <!-- 8. 遍历字符串 -->
+        <h3>8. 遍历字符串</h3>
+        <span v-for="(char, index) in 'Hello'" :key="'str-' + index">{{ char }} </span>
+    </div>
+
+    <script>
+        let app = new Vue({
+            el: '#app',
+            data: {
+                items: [{ name: 'a', value: 1 }, { name: 'b', value: 2 }, { name: 'c', value: 3 }],
+                user: {
+                    name: '张三',
+                    age: 25,
+                    gender: '男'
+                }
+            }
+
+        });
+    </script>
+</body>
+
+</html>

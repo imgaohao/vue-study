@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>计算属性和监视属性区别</title>
+    <script src="../js/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        姓：<input type="text" v-model="firstName">
+        名：<input type="text" v-model="lastName">
+        <h1>姓名是 {{ fullNameComputed }}</h1>
+        <h1>姓名是 {{ fullNameWatch }}</h1>
+    </div>
+
+    <script>
+        let app = new Vue({
+            el: '#app',
+            data: {
+                firstName: '张',
+                lastName: '三',
+                fullNameWatch: '',
+            },
+            computed: {
+                fullNameComputed() {
+                    //计算属性依赖返回值，没办法异步更新
+                    setTimeout(() => {
+                        return this.firstName + '-' + this.lastName
+                    }, 1000)
+                },
+            },
+            watch: {
+                //监视属性可以异步更新
+                firstName(newVal, oldVal) {
+                    setTimeout(() => {
+                        this.fullNameWatch = newVal + '-' + this.lastName
+                    }, 1000)
+                },
+                lastName(newVal, oldVal) {
+                    setTimeout(() => {
+                        this.fullNameWatch = this.firstName + '-' + newVal
+                    }, 1000)
+                },
+            }
+        })
+    </script>
+</body>
+
+</html>

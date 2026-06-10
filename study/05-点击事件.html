@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>点击事件</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h1>{{ msg }}</h1>
+        <!-- v-on:click="changeMsg" 表示点击按钮时，会触发changeMsg方法，默认传递事件对象$event -->
+        <button v-on:click="changeMsg">改变msg</button>
+        <!-- 简写 @click="changeMsg" 指定参数 -->
+        <button @click="changeMsg2('hello', $event)">改变msg</button>
+    </div>
+
+    <script>
+        let app = new Vue({
+            el: '#app',
+            data: {
+                msg: 'hello vue'
+            },
+            methods: {
+                changeMsg(event) {
+                    // event是事件对象，包含了事件相关的信息，event.target是事件触发的元素
+                    console.log(event.target)
+                    this.msg = 'hello vue 2'
+                },
+                changeMsg2(data, event) {
+                    this.msg = data
+                }
+            }
+        })
+    </script>
+</body>
+</html>

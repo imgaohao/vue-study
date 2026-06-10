@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>数据代理</title>
+</head>
+<body>
+    <script>
+        let obj1 = {x: 100}
+        let obj2 = {y: 200}
+
+        // 代理obj2的x属性，实现对obj1的x属性的访问和修改
+        Object.defineProperty(obj2, 'x', {
+            get() {
+                return obj1.x
+            },
+            set(newValue) {
+                obj1.x = newValue
+            }
+        })
+        // 访问obj2的x属性，会返回obj1的x属性的值
+        console.log(obj2.x)
+        // 修改obj2的x属性，会修改obj1的x属性
+        obj2.x = 1000
+    </script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>条件渲染</title>
+    <script src="../js/vue.js"></script> 
+</head>
+
+<body>
+    <div id="app">
+        <!-- v-show 用法：根据表达式的真假值，切换元素的 display CSS 属性 -->
+        <h1 v-show="ok">Hello!</h1>
+        <p v-show="!ok">当 ok 为 false 时显示这段文字</p>
+        <button @click="ok = !ok">切换显示</button>
+
+        <!-- v-if 和 v-else-if 用法：根据表达式的真假值，条件性地渲染元素 -->
+        <h1 v-if="ok">Hello! (v-if 为 true 时显示)</h1>
+        <h1 v-else-if="!ok">Goodbye! (v-if 为 false 时显示)</h1>
+        <h1 v-else>默认显示</h1>
+        <button @click="ok = !ok">切换显示</button>
+
+        <!-- v-if vs v-show 区别说明 -->
+        <div style="margin-top: 20px; padding: 10px; border: 1px solid #ccc;">
+            <h3>v-if 与 v-show 的区别：</h3>
+            <ul>
+                <li><strong>v-if</strong>：条件为 false 时，元素从 DOM 中移除（真正的条件渲染）</li>
+                <li><strong>v-show</strong>：条件为 false 时，元素仍保留在 DOM 中，只是 display 设为 none</li>
+                <li>v-if 有更高的切换开销（需要创建/销毁元素）</li>
+                <li>v-show 有更高的初始渲染开销（无论条件如何都会渲染）</li>
+                <li>频繁切换时建议使用 v-show，条件很少改变时建议使用 v-if</li>
+            </ul>
+        </div>
+        
+        <!-- template v-if 用法：在 <template> 元素上使用 v-if 进行条件渲染 -->
+        <template v-if="ok">
+            <h2>这是一组元素</h2>
+            <p>当 ok 为 true 时，整个模板都会渲染</p>
+            <p>template 标签本身不会渲染到 DOM 中</p>
+        </template>
+        <template v-else>
+            <h2>这是另一组元素</h2>
+            <p>当 ok 为 false 时，显示这组内容</p>
+        </template>
+    </div>
+
+    <script>
+        let app = new Vue({
+            el: '#app',
+            data: {
+                ok: true
+            }
+        });
+    </script>
+</body>
+
+</html>
+

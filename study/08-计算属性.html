@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>计算属性</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        姓：<input type="text" v-model="firstName">
+        名：<input type="text" v-model="lastName">
+        <!-- 插值写法，复杂逻辑不好处理 -->
+        <h1>姓名是 {{ firstName }}-{{ lastName }}</h1>
+        <!-- 方法写法，每次调用方法，都会重新计算 -->
+        <h1>姓名是 {{ fullNameMethod() }}</h1>
+        <h1>姓名是 {{ fullNameMethod() }}</h1>
+        <!-- 计算属性写法，多次调用，不会重新计算 -->
+        <h1>姓名是 {{ fullNameComputed }}</h1>
+        <h1>姓名是 {{ fullNameComputed }}</h1>
+        <!-- 计算属性的getter方法 -->
+        <h1>姓名是 {{ fullNameGetter }}</h1>
+        <h1>姓名是 {{ fullNameGetter }}</h1>
+    </div>
+
+    <script>
+        let app = new Vue({
+            el: '#app',
+            data: {
+                firstName: '张',
+                lastName: '三',
+            },
+            //方法的缺点是，每次调用方法，都会重新计算
+            methods: {
+                fullNameMethod() {
+                    return this.firstName + '-' + this.lastName
+                }
+            },
+            //计算属性的好处是，初次调用时，会计算一次，后续调用时，不会重新计算
+            //当依赖的属性发生变化时，计算属性才会重新计算
+            computed: {
+                //简写方式，只读计算属性，只能获取，不能设置值
+                fullNameComputed() {
+                    return this.firstName + '-' + this.lastName
+                },
+                //可读写计算属性，可以获取值，也可以设置值
+                fullNameGetter: {
+                    get() {
+                        return this.firstName + '-' + this.lastName
+                    },
+                    set(newValue) {
+                        this.firstName = newValue.split('-')[0]
+                        this.lastName = newValue.split('-')[1]
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+</html>

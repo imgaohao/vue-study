@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>vue中的数据代理</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h1>{{ msg }}</h1>
+    </div>
+
+    <script>
+        let app = new Vue({
+            el: '#app',
+            //app._data就是data选项中的对象，app._data.msg访问msg属性
+            data: {
+                msg: 'hello vue'
+            }
+        })
+        // 访问msg属性，会返回hello vue，app.msg就是getter方法，比直接访问app._data.msg要方便
+        console.log(app.msg)
+        // 修改msg属性，会触发模板的更新，app.msg就是setter方法，比直接修改app._data.msg要方便
+        app.msg = 'hello vue 2'
+
+        //其实app._data.msg也是getter和setter方法
+        //数据变化时，会触发getter方法，更新模板
+        //修改时，会触发setter方法，更新数据
+    </script>
+</body>
+</html>

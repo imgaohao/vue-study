@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>列表过滤</title>
+    <script src="../js/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <input type="text" v-model="keyword" placeholder="输入关键词过滤">
+        <ul>
+            <li v-for="item in filteredList" :key="item">{{ item }}</li>
+        </ul>
+         <ul>
+            <li v-for="item in filteredItems" :key="item">{{ item }}</li>
+        </ul>
+    </div>
+
+    <script>
+        let app = new Vue({
+            el: '#app',
+            data: {
+                keyword: '',
+                items: ['a', 'b', 'c', 'd', 'e'],
+                filteredItems: []
+            },
+            computed: {
+                filteredList() {
+                    return this.items.filter(item => item.includes(this.keyword))
+                }
+            },
+            watch: {
+                keyword: {
+                    immediate: true,
+                    handler(newVal, oldVal) {
+                        this.filteredItems = this.items.filter(item => item.includes(newVal))
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

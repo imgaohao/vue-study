@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>列表排序</title>
+    <script src="../js/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div>
+            <input type="text" v-model="filterText" placeholder="输入过滤条件">
+        </div>
+        <div>
+            <button @click="sortOrder = 'asc'">升序</button>
+            <button @click="sortOrder = 'desc'">降序</button>
+            <button @click="sortOrder = 'original'">原顺序</button>
+        </div>
+        <ul>
+            <li v-for="item in sortedItems" :key="item.id">{{ item.name }} - {{ item.value }}</li>
+        </ul>
+    </div>
+
+    <script>
+        let app = new Vue({
+            el: '#app',
+            data: {
+                items: [
+                    { id: 1, name: 'a', value: 5 },
+                    { id: 2, name: 'b', value: 3 },
+                    { id: 3, name: 'c', value: 8 },
+                    { id: 4, name: 'd', value: 1 },
+                    { id: 5, name: 'e', value: 6 }
+                ],
+                sortOrder: 'original',
+                filterText: ''
+            },
+            computed: {
+                sortedItems() {
+                    let result = this.items;
+                    // 先过滤（按 name 过滤）
+                    if (this.filterText) {
+                        result = result.filter(item => item.name.includes(this.filterText));
+                    }
+                    // 再排序（按 value 排序）
+                    if (this.sortOrder === 'asc') {
+                        return [...result].sort((a, b) => a.value - b.value);
+                    } else if (this.sortOrder === 'desc') {
+                        return [...result].sort((a, b) => b.value - a.value);
+                    } else {
+                        return result;
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

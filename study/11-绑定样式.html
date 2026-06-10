@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>绑定样式</title>
+    <script src="../js/vue.js"></script>
+    <style>
+        /* 基础样式 */
+        .base {
+            width: 200px;
+            height: 200px;
+            border: 1px solid #ccc;
+            transition: all 0.3s ease;
+        }
+        
+        /* 切换样式 */
+        .active {
+            background-color: #4CAF50;
+            color: white;
+        }
+        
+        .danger {
+            background-color: #f44336;
+            color: white;
+        }
+        
+        .warning {
+            background-color: #ff9800;
+            color: white;
+        }
+        
+        /* 可选样式 */
+        .rounded {
+            border-radius: 10px;
+        }
+        
+        .shadow {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .large {
+            width: 300px;
+            height: 300px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 1. 字符串绑定 class -->
+        <h3>1. 字符串绑定 class</h3>
+        <div class="base" :class="classStr">字符串绑定</div>
+        <input type="text" v-model="classStr" placeholder="输入 class 名称">
+
+        <!-- 2. 对象绑定 class -->
+        <h3>2. 对象绑定 class</h3>
+        <div class="base" :class="classObj">对象绑定</div>
+        <label><input type="checkbox" v-model="classObj.active"> active</label>
+        <label><input type="checkbox" v-model="classObj.rounded"> rounded</label>
+        <label><input type="checkbox" v-model="classObj.shadow"> shadow</label>
+
+        <!-- 3. 数组绑定 class -->
+        <h3>3. 数组绑定 class</h3>
+        <div class="base" :class="classArr">数组绑定</div>
+        <button @click="toggleClass('active')">切换 active</button>
+        <button @click="toggleClass('rounded')">切换 rounded</button>
+        <button @click="toggleClass('shadow')">切换 shadow</button>
+
+        <!-- 4. 数组中使用对象语法 -->
+        <h3>4. 数组中使用对象语法</h3>
+        <div class="base" :class="[{active: isActive}, 'rounded']">数组+对象</div>
+        <button @click="isActive = !isActive">切换 active</button>
+
+        <!-- 5. 绑定 style（对象语法） -->
+        <h3>5. 绑定 style（对象语法）</h3>
+        <div class="base" :style="styleObj">style 对象绑定</div>
+        <input type="color" v-model="styleObj.backgroundColor">
+        <input type="range" v-model.number="fontSizeNum" min="12" max="30"> {{styleObj.fontSize}}
+
+        <!-- 6. 绑定 style（数组语法） -->
+        <h3>6. 绑定 style（数组语法）</h3>
+        <div class="base" :style="[styleObj, styleObj2]">style 数组绑定</div>
+
+        <!-- 7. 使用计算属性绑定 class -->
+        <h3>7. 使用计算属性绑定 class</h3>
+        <div class="base" :class="computedClass">计算属性绑定</div>
+        <select v-model="theme">
+            <option value="active">active</option>
+            <option value="danger">danger</option>
+            <option value="warning">warning</option>
+        </select>
+        <label><input type="checkbox" v-model="isLarge"> large</label>
+    </div>
+
+    <script>
+        const vm = new Vue({
+            el: '#app',
+            data: {
+                // 1. 字符串绑定 class
+                classStr: 'active',
+                
+                // 2. 对象绑定 class
+                classObj: {
+                    active: true,
+                    rounded: false,
+                    shadow: false
+                },
+                
+                // 3. 数组绑定 class
+                classArr: ['active'],
+                
+                // 4. 数组中使用对象语法
+                isActive: true,
+                
+                // 5. 绑定 style（对象语法）
+                styleObj: {
+                    backgroundColor: '#4CAF50',
+                    fontSize: '16px'  // 添加 px 单位
+                },
+                fontSizeNum: 16,  // 新增：用于 range 输入
+                
+                // 6. 绑定 style（数组语法）
+                styleObj2: {
+                    borderRadius: '10px',
+                    boxShadow: '0 4px 8px rgba(0,0,0,0.2)'
+                },
+                
+                // 7. 使用计算属性绑定 class
+                theme: 'active',
+                isLarge: false
+            },
+            methods: {
+                // 切换数组中的 class
+                toggleClass(className) {
+                    const index = this.classArr.indexOf(className);
+                    if (index > -1) {
+                        //splice参数解释：index为删除的起始索引，1为删除的元素个数
+                        this.classArr.splice(index, 1);
+                    } else {
+                        this.classArr.push(className);
+                    }
+                }
+            },
+            computed: {
+                // 计算属性动态返回 class 对象
+                computedClass() {
+                    return {
+                        [this.theme]: true,
+                        large: this.isLarge
+                    };
+                }
+            },
+            watch: {
+                // 监听 fontSizeNum 变化，自动添加 px 单位
+                fontSizeNum(newVal) {
+                    this.styleObj.fontSize = newVal + 'px';
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
+

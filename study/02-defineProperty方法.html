@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>defineProperty方法</title>
+</head>
+<body>
+    <script>
+        let phone = 13411111111
+        let person = {
+            name: '张三',
+            age: 18
+        }
+
+        //defineProperty方法可以定义对象的属性，也可以修改对象的属性，也可以删除对象的属性
+        Object.defineProperty(person, 'email', {
+            value: 'zhangsan@example.com',
+            // 是否可以枚举，比如for in、Object.keys()等
+            enumerable: true,
+            // 是否可以被修改
+            writable: true,
+            // 是否可以被删除
+            configurable: true,
+        })
+
+        //用get和set方法定义属性，可以实现属性的自定义操作
+        Object.defineProperty(person, 'phone', {
+            get() {
+                //引用外部变量phone
+                return phone
+            },
+            set(newValue) {
+                phone = newValue
+            }
+        })
+    </script>
+</body>
+</html>

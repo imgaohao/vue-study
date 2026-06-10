@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>插值,数据绑定</title>
+    <!-- 引入vue.js文件 -->
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <!-- 插值语法，可以解析标签体内容 -->
+        <!-- {{ }} 中可以写js表达式，比如变量、表达式、函数 -->
+        <h1>{{message}}，{{Date.now()}}</h1>
+
+        <!-- 指令语法，可以解析标签属性、标签体内容、绑定事件... -->
+        <!-- 单向数据绑定，v-bind:href="url" 双引号中可以写js表达式 -->
+        <a v-bind:href="url">跳转</a>
+        <!-- v-bind:href 可以简写成 :href="url" -->
+        <a :href="url">跳转</a>
+
+        <!-- 双向数据绑定，v-model:value="text" 双引号中可以写js表达式，只能用在表单类、输入类元素 -->
+        <input v-model:value="text" type="text">
+        <!-- v-model:value 可以简写成 v-model="text" -->
+        <input v-model="text" type="text">
+    </div>
+    <div id="root2"></div>
+    <div id="root3"></div>
+    <div id="root4"></div>
+    <script>
+        // 关闭vue的生产提示
+        Vue.config.productionTip = false;
+
+        // 创建vue实例
+        new Vue({
+            //通常是css选择器，也可以是dom元素，一个Vue对应一个元素，一个元素对应一个Vue实例
+            el: '#root',
+            data: {
+                message: 'hello vue',
+                url: 'https://www.baidu.com',
+                text: 'name'
+            }
+        })
+
+
+        const app = new Vue({
+            data: {
+                message: 'hello vue',
+                url: 'https://www.baidu.com',
+                text: 'name'
+            }
+        })
+        // 手动挂载，将vue实例挂载到指定的元素上
+        app.$mount('#root2');
+        //可以通过app.url访问vue实例中的url属性
+        console.log(app.url);
+
+
+        new Vue({
+            el: '#root3',
+            //data可以是一个函数，返回一个对象
+            //不能用箭头函数，因为箭头函数没有this，向外层找this
+            data: function() {
+                // this指向vue实例
+                console.log(this);
+                return {
+                    message: 'hello vue'
+                }
+            }
+        });
+
+
+        new Vue({
+            el: '#root4',
+            data() {
+                return {
+                    message: 'hello vue'
+                }
+            }
+        });
+    </script>
+</body>
+</html>

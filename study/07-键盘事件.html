@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>键盘事件</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h1>按键是 {{ msg }}</h1>
+        <!-- 回车键触发 -->
+        <input type="text" @keydown.enter="handleKeyDown" placeholder="按回车键触发">
+        <!-- 任意键按下时触发 -->
+        <input type="text" @keydown="handleKeyDown" placeholder="任意键按下触发">
+        <!-- 任意键松开时触发 -->
+        <input type="text" @keyup="handleKeyDown" placeholder="任意键松开触发">
+        <!-- 输入内容变化时触发 -->
+        <input type="text" @input="handleKeyDown" placeholder="输入内容变化触发">
+        <!-- 自定义按键修饰符触发 -->
+        <input type="text" @keydown.myctrl="handleKeyDown" placeholder="按Ctrl键触发">
+        <!-- 组合按键修饰符触发 -->
+        <input type="text" @keydown.ctrl.y="handleKeyDown" placeholder="按Ctrl+Y键触发">
+
+        <!-- 常用按键修饰符说明：
+             .enter - 回车键
+             .tab - Tab键，必须配合keydown事件使用
+             .delete (捕获"删除"和"退格"键)
+             .esc - Esc键
+             .space - 空格键
+             .up - 上箭头
+             .down - 下箭头
+             .left - 左箭头
+             .right - 右箭头
+             
+             系统修饰键：keyup事件需要再按下其他按键并松开，才会触发
+             .ctrl - Ctrl键
+             .alt - Alt键
+             .shift - Shift键
+             .meta - 系统键(Windows键/Mac的Command键)
+             
+             鼠标修饰键：
+             .left - 鼠标左键
+             .right - 鼠标右键
+             .middle - 鼠标中键
+        -->
+    </div>
+
+    <script>
+        //自定义按键修饰符
+        Vue.config.keyCodes = {
+            myctrl: 17,
+            myalt: 18,
+            myshift: 16,
+            mymeta: 91,
+        }
+        Vue.config.keyCodes.myenter = 13
+        //自定义鼠标修饰符
+        Vue.config.mouseButtons = {
+            left: 0,
+            right: 2,
+            middle: 1,
+        }
+        
+        let app = new Vue({
+            el: '#app',
+            data: {
+                msg: 'hello vue'
+            },
+            methods: {
+                handleKeyDown(event) {
+                    console.log(event.target.value)
+                    //event.key - 按键的键值，比如'Enter'、'a'等
+                    //event.keyCode - 按键的ASCII码值，比如13、97等
+                    //event.code - 按键的名称，比如'Enter'、'KeyA'等
+                    console.log(event.key, event.keyCode, event.code)
+                    this.msg = event.key
+                    //event.ctrlKey - Ctrl键是否被按下
+                    //event.altKey - Alt键是否被按下
+                    //event.shiftKey - Shift键是否被按下
+                    //event.metaKey - 系统键(Windows键/Mac的Command键)是否被按下
+                }
+            }
+        })
+    </script>
+</body>
+</html>
