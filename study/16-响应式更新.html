@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>更新问题</title>
+    <script src="../js/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <h3>响应式更新</h3>
+        <div class="buttons">
+            <button @click="wrongWay" class="wrong">错误方式</button>
+            <button @click="rightWay1" class="right">正确方式1</button>
+            <button @click="rightWay2" class="right">正确方式2</button>
+            <button @click="rightWay3" class="right">正确方式3</button>
+            <button @click="rightWay4" class="right">正确方式4</button>
+        </div>
+        <ul>
+            <li v-for="item in items" :key="item.id">{{ item.name }} - {{ item.value }}</li>
+        </ul>
+    </div>
+
+    <style>
+        .buttons {
+            margin: 10px 0;
+        }
+
+        .buttons button {
+            margin-right: 10px;
+            padding: 5px 15px;
+            cursor: pointer;
+        }
+
+        .wrong {
+            background-color: #ffcccc;
+        }
+
+        .right {
+            background-color: #ccffcc;
+        }
+    </style>
+
+    <script>
+        let app = new Vue({
+            el: '#app',
+            data: {
+                items: [
+                    { id: 1, name: 'a', value: 5 },
+                    { id: 2, name: 'b', value: 3 },
+                    { id: 3, name: 'c', value: 8 },
+                    { id: 4, name: 'd', value: 1 },
+                    { id: 5, name: 'e', value: 6 }
+                ],
+            },
+            methods: {
+                // 错误方式：直接替换数组元素，不会触发响应式更新
+                wrongWay() {
+                    this.items[0] = {
+                        id: 1,
+                        name: 'a',
+                        value: 999
+                    }
+                },
+
+                // 正确方式1：修改对象的属性值
+                rightWay1() {
+                    this.items[0].value = 11;
+                },
+
+                // 正确方式2：使用 Vue 实例的 $set 方法，不能用于this和this._data
+                rightWay2() {
+                    this.$set(this.items, 0, {
+                        id: 1,
+                        name: 'a',
+                        value: 22
+                    })
+                },
+
+                // 正确方式3：使用 Vue 的全局 set 方法，不能用于this和this._data
+                rightWay3() {
+                    Vue.set(this.items, 0, {
+                        id: 1,
+                        name: 'a',
+                        value: 33
+                    })
+                },
+
+                // 正确方式4：使用 Vue 封装的数组方法（push/pop/shift/unshift/splice/sort/reverse）
+                rightWay4() {
+                    this.items.shift();
+                    this.items.unshift({
+                        id: 1,
+                        name: 'a',
+                        value: 44
+                    })
+                }
+            }
+        });
+    </script>
+
+    <script>
+        //响应式原理
+        let data = {
+            name: '张三',
+            age: 18
+        }
+        const obs = new Observer(data)
+        let vm = {}
+        vm._data = data = obs
+
+        function Observer(data) {
+            //这里只简单遍历对象，Vue中会递归遍历对象，确保每个属性都有响应式处理
+            //对于数组元素，使用Vue实例的$set方法，Vue全局的set方法，以及Vue 封装的数组方法（push/pop/shift/unshift/splice/sort/reverse）
+            //对象新增key，使用Vue实例的$set方法，Vue全局的set方法
+            const keys = Object.keys(data)
+            keys.forEach(key => {
+                Object.defineProperty(this, key, {
+                    get() {
+                        return data[key]
+                    },
+                    set(newVal) {
+                        console.log("渲染页面")
+                        data[key] = newVal
+                    }
+                })
+            })
+        }
+    </script>
+</body>
+</html>
