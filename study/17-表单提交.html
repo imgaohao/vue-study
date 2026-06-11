@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>表单提交</title>
+    <script src="../js/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <h2>表单元素示例</h2>
+        <!-- @submit.prevent: 阻止表单默认提交行为 -->
+        <form @submit.prevent="printFormData">
+            <!-- 文本输入 -->
+            <div class="form-group">
+                <label>用户名：</label>
+                <!-- .trim: 自动去掉输入的首尾空格 -->
+                <input type="text" v-model.trim="formData.username" placeholder="请输入用户名">
+            </div>
+
+            <!-- 密码输入 -->
+            <div class="form-group">
+                <label>密码：</label>
+                <input type="password" v-model="formData.password" placeholder="请输入密码">
+            </div>
+
+            <!-- 邮箱输入 -->
+            <div class="form-group">
+                <label>邮箱：</label>
+                <input type="email" v-model="formData.email" placeholder="请输入邮箱">
+            </div>
+
+            <!-- 数字输入 -->
+            <div class="form-group">
+                <label>年龄：</label>
+                <!-- .number: 数字输入,会自动转换为数字类型 -->
+                <input type="number" v-model.number="formData.age" placeholder="请输入年龄" min="1" max="150">
+            </div>
+
+            <!-- 单行文本 -->
+            <div class="form-group">
+                <label>电话：</label>
+                <input type="tel" v-model="formData.phone" placeholder="请输入电话号码">
+            </div>
+
+            <!-- 日期选择 -->
+            <div class="form-group">
+                <label>出生日期：</label>
+                <input type="date" v-model="formData.birthday">
+            </div>
+
+            <!-- 单选按钮 -->
+            <div class="form-group">
+                <label>性别：</label>
+                <label><input type="radio" v-model="formData.gender" value="male"> 男</label>
+                <label><input type="radio" v-model="formData.gender" value="female"> 女</label>
+                <label><input type="radio" v-model="formData.gender" value="other"> 保密</label>
+            </div>
+
+            <!-- 复选框 -->
+            <div class="form-group">
+                <label>爱好：</label>
+                <label><input type="checkbox" v-model="formData.hobbies" value="reading"> 读书</label>
+                <label><input type="checkbox" v-model="formData.hobbies" value="music"> 音乐</label>
+                <label><input type="checkbox" v-model="formData.hobbies" value="sports"> 运动</label>
+                <label><input type="checkbox" v-model="formData.hobbies" value="coding"> 编程</label>
+            </div>
+
+            <!-- 下拉选择 -->
+            <div class="form-group">
+                <label>城市：</label>
+                <select v-model="formData.city">
+                    <option value="">请选择城市</option>
+                    <option value="beijing">北京</option>
+                    <option value="shanghai">上海</option>
+                    <option value="guangzhou">广州</option>
+                    <option value="shenzhen">深圳</option>
+                    <option value="hangzhou">杭州</option>
+                </select>
+            </div>
+
+            <!-- 多选下拉 -->
+            <div class="form-group">
+                <label>技能：</label>
+                <select v-model="formData.skills" multiple>
+                    <option value="html">HTML</option>
+                    <option value="css">CSS</option>
+                    <option value="javascript">JavaScript</option>
+                    <option value="vue">Vue</option>
+                    <option value="react">React</option>
+                </select>
+            </div>
+
+            <!-- 文本域 -->
+            <div class="form-group">
+                <label>简介：</label>
+                <!-- .lazy: 延迟更新,在失去焦点时触发 -->
+                <textarea v-model.lazy="formData.intro" placeholder="请输入个人简介" rows="4"></textarea>
+            </div>
+
+            <!-- 开关 -->
+            <div class="form-group">
+                <label>订阅推送：</label>
+                <input type="checkbox" v-model="formData.subscribe">
+            </div>
+
+            <!-- 颜色选择 -->
+            <div class="form-group">
+                <label>喜欢的颜色：</label>
+                <input type="color" v-model="formData.color">
+                <span>{{ formData.color }}</span>
+            </div>
+
+            <!-- 范围滑块 -->
+            <div class="form-group">
+                <label>满意度 ({{ formData.satisfaction }}%)：</label>
+                <input type="range" v-model="formData.satisfaction" min="0" max="100" step="5">
+            </div>
+
+            <!-- 提交按钮 -->
+            <div class="form-group">
+                <button type="submit">打印表单数据</button>
+                <button type="reset">重置</button>
+            </div>
+        </form>
+
+        <!-- 表单数据展示 -->
+        <div class="result" v-if="showResult">
+            <h3>表单数据：</h3>
+            <pre>{{ formData }}</pre>
+        </div>
+    </div>
+
+    <script>
+        let app = new Vue({
+            el: '#app',
+            data: {
+                formData: {
+                    username: '',
+                    password: '',
+                    email: '',
+                    age: null,
+                    phone: '',
+                    birthday: '',
+                    gender: 'male',
+                    hobbies: [],
+                    city: '',
+                    skills: [],
+                    intro: '',
+                    subscribe: false,
+                    color: '#ff0000',
+                    satisfaction: 50
+                },
+                showResult: false
+            },
+            methods: {
+                printFormData() {
+                    console.log('========== 表单数据 ==========');
+                    console.log(this.formData);
+                    console.log('==============================');
+                    
+                    // 显示结果区域
+                    this.showResult = true;
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

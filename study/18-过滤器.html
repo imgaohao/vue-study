@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>过滤器</title>
+    <script src="../js/vue.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/dayjs/1.11.18/dayjs.min.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <h2>时间戳格式化示例</h2>
+        <p>原始时间戳：{{ timestamp }}</p>
+
+        <!-- 1. 使用 methods 方式 -->
+        <div class="method-box">
+            <h3>1. methods 方式</h3>
+            <p>{{ formatTimeByMethod(timestamp) }}</p>
+        </div>
+
+        <!-- 2. 使用 computed 方式 -->
+        <div class="method-box">
+            <h3>2. computed 方式</h3>
+            <p>{{ formatTimeByComputed }}</p>
+        </div>
+
+        <!-- 3. 使用 filters 方式（组件内） -->
+        <div class="method-box">
+            <h3>3. filters 方式（组件内）</h3>
+            <p>{{ timestamp | formatTimeFilter }}</p>
+            <!-- timestamp 作为第一个参数 -->
+            <p>{{ timestamp | formatTimeFilter('YYYY-MM-DD') }}</p>
+        </div>
+
+        <!-- 4. 使用 Vue.filter 方式（全局） -->
+        <div class="method-box">
+            <h3>4. Vue.filter 方式（全局）</h3>
+            <p>{{ timestamp | globalFormatTime }}</p>
+        </div>
+    </div>
+
+    <script>
+        // 4. 全局过滤器 - Vue.filter 方式（使用 dayjs）
+        Vue.filter('globalFormatTime', function (timestamp, format = 'YYYY-MM-DD HH:mm:ss') {
+            if (!timestamp) return '---';
+            
+            // 兼容秒级时间戳（10位）和毫秒级时间戳（13位）
+            const date = timestamp.toString().length === 10 
+                ? dayjs.unix(timestamp) 
+                : dayjs(timestamp);
+            
+            return date.format(format);
+        });
+
+        let app = new Vue({
+            el: '#app',
+            data: {
+                timestamp: 1620000000  // 2021-05-03 00:00:00
+            },
+            methods: {
+                // 1. methods 方式（使用 dayjs），可传参
+                formatTimeByMethod(timestamp, format = 'YYYY-MM-DD HH:mm:ss') {
+                    if (!timestamp) return '---';
+                    
+                    const date = timestamp.toString().length === 10 
+                        ? dayjs.unix(timestamp) 
+                        : dayjs(timestamp);
+                    
+                    return date.format(format);
+                }
+            },
+            computed: {
+                // 2. computed 方式（使用 dayjs），依赖data数据
+                formatTimeByComputed() {
+                    const timestamp = this.timestamp;
+                    if (!timestamp) return '---';
+                    
+                    const date = timestamp.toString().length === 10 
+                        ? dayjs.unix(timestamp) 
+                        : dayjs(timestamp);
+                    
+                    return date.format('YYYY-MM-DD HH:mm:ss');
+                }
+            },
+            filters: {
+                // 3. filters 方式（组件内）（使用 dayjs），可传参，管道方式使用，Vue3已删除
+                formatTimeFilter(timestamp, format = 'YYYY-MM-DD HH:mm:ss') {
+                    if (!timestamp) return '---';
+                    
+                    const date = timestamp.toString().length === 10 
+                        ? dayjs.unix(timestamp) 
+                        : dayjs(timestamp);
+                    
+                    return date.format(format);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

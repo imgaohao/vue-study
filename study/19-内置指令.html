@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>内置指令 v-text</title>
+    <script src="../js/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 插值语法 -->
+        普通文本：{{ message }}
+
+        <!-- v-text（会覆盖元素内容） -->
+        <!-- v-text 避免闪烁（防止 {{ }} 在 Vue 加载前显示） -->
+        <p v-text="message"></p>
+
+        <!-- v-text 原样输出 HTML 结构 -->
+        <p v-text="'<b>粗体文字</b>'"></p>
+
+        <!-- {{ }}（保留 HTML 结构）-->
+        <p>{{ '<b>粗体文字</b>' }}</p>
+    </div>
+
+    <script>
+        let app = new Vue({
+            el: '#app',
+            data: {
+                message: 'Hello Vue!',
+            }
+        });
+    </script>
+</body>
+
+</html>
