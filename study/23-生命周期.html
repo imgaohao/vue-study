@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>生命周期</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        
+    </div>
+
+    <script>
+        let vm = new Vue({
+            el: '#app',
+            //template只能写一个根元素，不能用template标签作为根元素
+            template: '<div><h1>{{n}}</h1></div>',
+            data: {
+                n: 1,
+            },
+            //---在Vue实例创建前调用，不能访问到data、methods
+            beforeCreate() {
+                console.log('beforeCreate');
+            },
+
+            //---初始化数据监测、数据代理
+
+            //---在Vue实例创建完成后调用，可以访问到data、methods
+            created() {
+                console.log('created');
+            },
+
+            //---有el，正常往下执行
+            //---没有el，在vm.$mount时才会往下执行
+            //有template，用整个template替换el指定的元素
+            //生成虚拟DOM
+
+            //---在Vue实例挂载前调用，对DOM操作短暂生效
+            beforeMount() {
+                console.log('beforeMount');
+            },
+
+            //---挂载虚拟DOM到真实DOM
+
+            //---在Vue实例挂载完成后调用，对DOM操作永久生效（尽量避免）
+            //一般在此开启定时器、发送网络请求、订阅消息、绑定自定义事件等初始化操作
+            mounted() {
+                console.log('mounted');
+            },
+
+            //---每次Vue实例更新前调用，数据已经更新，但是DOM还没有更新
+            beforeUpdate() {
+                console.log('beforeUpdate');
+            },
+
+            //---重新渲染虚拟DOM到真实DOM
+
+            //---每次Vue实例更新完成后调用，数据和DOM都已更新了
+            updated() {
+                console.log('updated');
+                //此处如果更新了data中的数据，数据变化了，会触发beforeUpdate、更新DOM、updated
+            },
+
+            //---vm.$destroy()方法调用后往下执行
+
+            //---在Vue实例销毁前调用，一般在此清除定时器、取消订阅消息、解绑自定义事件等收尾操作
+            //能访问data、methods，但是不会更新DOM了
+            beforeDestroy() {
+                console.log('beforeDestroy');
+            },
+            //---在Vue实例销毁完成后调用。DOM已经绑定的事件还在。
+            destroyed() {
+                console.log('destroyed');
+            },
+        })
+    </script>
+</body>
+</html>

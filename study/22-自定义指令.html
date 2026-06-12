@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>自定义指令</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <p v-big="n"></p>
+        <p v-bigab2="n"></p>
+        <input v-focus:value="n" type="text">
+        <button @click="n++">点击我</button>
+    </div>
+
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                n: 1,
+            },
+            directives: {
+                big: {
+                    // bind: 只调用一次，指令与元素绑定时调用
+                    // inserted: 被绑定元素插入父节点时调用
+                    // update: 所在组件的 VNode 更新时调用
+                    // componentUpdated: 所在组件的 VNode 及其子 VNode 全部更新后调用
+                    // unbind: 只调用一次，指令与元素解绑时调用
+
+                    //this不是Vue实例，是window对象
+
+                    // 参数说明：
+                    // el: 指令所绑定的元素，可以用来直接操作 DOM
+                    // binding: 一个对象，包含以下属性：
+                    //   - name: 指令名，不包括 v- 前缀
+                    //   - value: 指令的绑定值，例如 v-big="n" 中，n 的值
+                    //   - oldValue: 指令绑定的前一个值，仅在 update 和 componentUpdated 钩子中可用
+                    //   - expression: 字符串形式的指令表达式，例如 v-big="n" 中，"n"
+                    //   - arg: 传给指令的参数，例如 v-big:foo 中，"foo"
+                    //   - modifiers: 一个包含修饰符的对象，例如 v-big.a.b 中，{a: true, b: true}
+                    // vnode: Vue 编译生成的虚拟节点
+                    // oldVnode: 上一个虚拟节点，仅在 update 和 componentUpdated 钩子中可用
+                    bind(el, binding) {
+                        el.innerText = binding.value * 10;
+                    }
+                },
+                //简写形式，相当于bind和update用同一个函数
+                //v-bigAb2, v-bigab2 会转成小写 bigab2
+                //所以定义时不能用大写字母，否则永远匹配不到，会报错。建议用"big-ab2"这种格式
+                bigab2(el, binding) {
+                    el.innerText = binding.value * 10;
+                },
+                focus: {
+                    bind(el, binding) {
+                        console.log(binding);
+                        el.value = binding.value;
+                    },
+                    inserted(el) {
+                        //不在bind中调用focus方法，因为初次bind时元素未插入到DOM中，所以调用focus方法没有作用
+                        el.focus();
+                    },
+                    update(el, binding) {
+                        el.value = binding.value;
+                    }
+                }
+            }
+        });
+
+        //全局指令
+        Vue.directive('big', {
+            bind(el, binding) {
+                el.innerText = binding.value * 10;
+            }
+        })
+    </script>
+</body>
+</html>
