@@ -16,11 +16,12 @@
         <!-- v-text 避免闪烁（防止 {{ }} 在 Vue 加载前显示） -->
         <p v-text="message"></p>
 
-        <!-- v-text 原样输出 HTML 结构 -->
-        <p v-text="'<b>粗体文字</b>'"></p>
+        <!-- 输出 HTML 文本 -->
+        <p v-text="htmlContent"></p>
+        <p>{{ htmlContent }}</p>
 
-        <!-- {{ }}（保留 HTML 结构）-->
-        <p>{{ '<b>粗体文字</b>' }}</p>
+        <!-- v-html（保留 HTML 结构） -->
+        <p v-html="htmlContent"></p>
     </div>
 
     <script>
@@ -28,6 +29,7 @@
             el: '#app',
             data: {
                 message: 'Hello Vue!',
+                htmlContent: '<b>这是加粗的文字</b>',
             }
         });
     </script>
