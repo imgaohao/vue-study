@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>v-once</title>
+    <script src="../js/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- v-once（只渲染一次），后续更新不会触发渲染 -->
+        <p v-once>{{ n }}</p>
+        <p>{{ n }}</p>
+        <button @click="changeN">改变n</button>
+    </div>
+
+    <script>
+        let app = new Vue({
+            el: '#app',
+            data: {
+                n: 1,
+            },
+            methods: {
+                changeN() {
+                    this.n++;
+                }
+            }
+        });
+    </script>
+</body>
+</html>

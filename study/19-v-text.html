@@ -3,18 +3,24 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>内置指令 v-text</title>
-    <script src="../js/vue.js"></script>
+    <title>v-text</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
 </head>
 
 <body>
     <div id="app">
         <!-- 插值语法 -->
-        普通文本：{{ message }}
+        <p>{{ message }}</p>
 
         <!-- v-text（会覆盖元素内容） -->
         <!-- v-text 避免闪烁（防止 {{ }} 在 Vue 加载前显示） -->
         <p v-text="message"></p>
+        <!-- v-cloak 通过 CSS 样式临时隐藏元素，避免闪烁问题，加载时移除属性 -->
+        <p v-cloak>{{ message }}</p>
 
         <!-- 输出 HTML 文本 -->
         <p v-text="htmlContent"></p>
@@ -22,6 +28,8 @@
 
         <!-- v-html（保留 HTML 结构） -->
         <p v-html="htmlContent"></p>
+
+        <script src="../js/vue.js"></script>
     </div>
 
     <script>

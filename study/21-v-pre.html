@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>v-pre</title>
+    <script src="../js/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- v-pre 不处理，显示原始字符串 -->
+        <p v-pre>{{ n }}</p>
+        <p>{{ n }}</p>
+    </div>
+
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                n: 1,
+            },
+        });
+    </script>
+</body>
+</html>
