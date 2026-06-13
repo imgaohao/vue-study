@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>嵌套组件示例</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h1>嵌套组件示例</h1>
+        <app></app>
+    </div>
+
+    <script>
+        // 孙子组件 - GrandChild
+        const GrandChild = {
+            template: `
+                <div class="grandchild" :style="{ background: color }">
+                    <h4>🍎 孙子组件</h4>
+                    <p>我是最内层的组件</p>
+                    <button @click="changeColor">换颜色</button>
+                </div>
+            `,
+            data() {
+                return {
+                    color: '#27ae60'
+                }
+            },
+            methods: {
+                changeColor() {
+                    const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#ffeaa7']
+                    this.color = colors[Math.floor(Math.random() * colors.length)]
+                }
+            }
+        }
+
+        // 子组件 - Child
+        const Child = {
+            template: `
+                <div class="child">
+                    <h3>🍊 子组件</h3>
+                    <p>我包含孙子组件</p>
+                    <grand-child></grand-child>
+                </div>
+            `,
+            components: {
+                GrandChild
+            }
+        }
+
+        // 其他组件 - Other
+        const Other = {
+            template: `
+                <div class="other">
+                    <h3>🍍 其他组件</h3>
+                    <p>我是其他组件</p>
+                </div>
+            `,
+        }
+
+        // 父组件 - Parent
+        const App = {
+            template: `
+                <div class="parent">
+                    <h2>🍋 父组件</h2>
+                    <p>我包含子组件</p>
+                    <child></child>
+                    <child></child>
+                    <other></other>
+                </div>
+            `,
+            components: {
+                Child,
+                Other
+            }
+        }
+
+        new Vue({
+            el: '#app',
+            // 直接用模板方式
+            // template: `
+            //     <app></app>
+            // `,
+            components: {
+                App
+            }
+        })
+    </script>
+
+    <style>
+        .parent {
+            padding: 20px;
+            margin: 10px;
+            border: 2px solid #e74c3c;
+            border-radius: 10px;
+            background: #ffebee;
+        }
+        .child {
+            padding: 15px;
+            margin: 10px;
+            border: 2px solid #e67e22;
+            border-radius: 8px;
+            background: #fff3e0;
+        }
+        .grandchild {
+            padding: 10px;
+            margin: 10px;
+            border: 2px solid #27ae60;
+            border-radius: 6px;
+            background: #e8f5e9;
+            color: white;
+        }
+        button {
+            margin-top: 10px;
+            padding: 5px 15px;
+            cursor: pointer;
+            border: none;
+            border-radius: 4px;
+            background: rgba(255,255,255,0.3);
+            color: white;
+        }
+    </style>
+</body>
+</html>

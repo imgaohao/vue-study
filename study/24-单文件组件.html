@@ -24,6 +24,9 @@
 
     <script>
         // 定义Counter 组件，可以去掉Vue.extend()，直接写一个对象，注册的时候Vue自己会处理
+        // Vue.extend()返回的counter的本质是一个叫VueComponent的函数, function VueComponent(options)
+        // 在<counter></counter>时，Vue会调用这个函数 new counter(options)，返回一个新的组件实例对象
+        // this 指向这个组件实例对象
         const counter = Vue.extend({
             //组件在开发者工具中显示的名称
             name: 'mycounter',
