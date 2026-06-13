@@ -13,6 +13,8 @@
         <!-- 使用Counter 组件 -->
         <counter></counter>
         <counter></counter>
+        <!-- 也可以这样写，但是会导致后面的元素不显示，除非用脚手架工具 -->
+        <!-- <counter/> -->
         <hr>
         <!-- 使用UserProfile 组件 -->
         <!-- username 没有冒号，当做普通字符串传递 -->
@@ -21,8 +23,10 @@
     </div>
 
     <script>
-        // 定义Counter 组件
+        // 定义Counter 组件，可以去掉Vue.extend()，直接写一个对象，注册的时候Vue自己会处理
         const counter = Vue.extend({
+            //组件在开发者工具中显示的名称
+            name: 'mycounter',
             template: `
                 <div class="counter">
                     <h3>计数器</h3>
@@ -86,6 +90,7 @@
             // 注册组件
             // 可以在模板中直接使用组件名（如 <counter></counter>）            
             components: {
+                //也可以写mycounter: counter, 使用<mycounter></mycounter>
                 counter,
             }
         })
