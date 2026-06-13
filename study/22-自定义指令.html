@@ -1,19 +1,29 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <title>自定义指令</title>
     <script src="../js/vue.js"></script>
 </head>
+
 <body>
     <div id="app">
         <p v-big="n"></p>
+        <p v-big3="n"></p>
         <p v-bigab2="n"></p>
         <input v-focus:value="n" type="text">
         <button @click="n++">点击我</button>
     </div>
 
     <script>
+        //全局指令，要在new Vue实例之前定义
+        Vue.directive('big3', {
+            bind(el, binding) {
+                el.innerText = binding.value * 100;
+            }
+        })
+
         new Vue({
             el: '#app',
             data: {
@@ -65,13 +75,7 @@
                 }
             }
         });
-
-        //全局指令
-        Vue.directive('big', {
-            bind(el, binding) {
-                el.innerText = binding.value * 10;
-            }
-        })
     </script>
 </body>
+
 </html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>单文件组件</title>
+    <script src="../js/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <h1>单文件组件示例</h1>
+        <!-- 使用Counter 组件 -->
+        <counter></counter>
+        <counter></counter>
+        <hr>
+        <!-- 使用UserProfile 组件 -->
+        <!-- username 没有冒号，当做普通字符串传递 -->
+        <!-- age 有冒号，可以写js表达式 -->
+        <user-profile username="张三" :age="25"></user-profile>
+    </div>
+
+    <script>
+        // 定义Counter 组件
+        const counter = Vue.extend({
+            template: `
+                <div class="counter">
+                    <h3>计数器</h3>
+                    <p>计数: {{ count }}</p>
+                    <button @click="increment">+1</button>
+                    <button @click="decrement">-1</button>
+                    <button @click="reset">重置</button>
+                </div>
+            `,
+            //data必须用函数形式返回对象，因为多个组件不应该共用一个对象，而应该每次都返回一个新的对象
+            data() {
+                return {
+                    count: 0
+                }
+            },
+            methods: {
+                increment() {
+                    this.count++
+                },
+                decrement() {
+                    this.count--
+                },
+                reset() {
+                    this.count = 0
+                }
+            }
+        })
+
+        // 定义UserProfile 组件
+        const userProfile = Vue.extend({
+            props: {
+                username: {
+                    type: String,
+                    required: true
+                },
+                age: {
+                    type: Number,
+                    default: 0
+                }
+            },
+            template: `
+                <div class="user-profile">
+                    <h3>用户信息</h3>
+                    <p>姓名: {{ username }}</p>
+                    <p>年龄: {{ age }} 岁</p>
+                    <button @click="showInfo">显示信息</button>
+                </div>
+            `,
+            methods: {
+                showInfo() {
+                    alert(`用户: ${this.username}, 年龄: ${this.age}`)
+                }
+            }
+        })
+
+        //注册全局组件，注意要在new Vue()之前
+        Vue.component('user-profile', userProfile)
+
+        new Vue({
+            el: '#app',
+            // 注册组件
+            // 可以在模板中直接使用组件名（如 <counter></counter>）            
+            components: {
+                counter,
+            }
+        })
+    </script>
+
+    <style>
+        .counter,
+        .user-profile {
+            padding: 15px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        button {
+            margin: 5px;
+            padding: 5px 15px;
+            cursor: pointer;
+        }
+    </style>
+</body>
+
+</html>
