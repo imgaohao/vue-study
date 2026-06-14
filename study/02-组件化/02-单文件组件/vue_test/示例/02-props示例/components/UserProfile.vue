@@ -1,5 +1,4 @@
 <template>
-  <!-- 只能写一个根元素 -->
   <div class="user-profile">
     <h3>用户信息</h3>
     <p>姓名: {{ username }}</p>

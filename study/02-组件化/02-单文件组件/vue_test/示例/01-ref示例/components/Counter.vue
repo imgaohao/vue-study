@@ -1,5 +1,4 @@
 <template>
-  <!-- 只能写一个根元素 -->
   <div class="counter">
     <h3>计数器</h3>
     <p>计数: {{ count }}</p>

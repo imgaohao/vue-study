@@ -6,16 +6,7 @@ import Vue from 'vue'
 
 import App from './App.vue'
 
-//引入混合对象
-import { hunhe, hunhe2 } from './mixin.js'
-
-// import { hunhe, hunhe2 } from './mixin.js'
-
 Vue.config.productionTip = false
-
-//全局混合
-// Vue.mixin(hunhe)
-// Vue.mixin(hunhe2)
 
 new Vue({
   //完整版vue，包含模板解析器，可以用template渲染
