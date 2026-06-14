@@ -5,8 +5,6 @@
 </template>
 
 <script>
-import { hunhe, hunhe2 } from '../mixin.js'
-
 export default {
   name: 'Cat',
   data() {
@@ -14,10 +12,6 @@ export default {
       name: "小白"
     }
   },
-  mixins: [hunhe, hunhe2],
-  mounted() {
-    console.log('Cat mounted')
-  }
 }
 </script>
 

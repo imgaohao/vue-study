@@ -5,8 +5,6 @@
 </template>
 
 <script>
-import { hunhe, hunhe2 } from '../mixin.js'
-
 export default {
   name: 'Dog',
   data() {
@@ -14,7 +12,6 @@ export default {
       name: "旺财"
     }
   },
-  mixins: [hunhe, hunhe2]
 }
 </script>
 
