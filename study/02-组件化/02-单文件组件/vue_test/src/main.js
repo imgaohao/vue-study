@@ -7,8 +7,6 @@ import Vue from 'vue'
 import App from './App.vue'
 
 //引入混合对象
-import { hunhe, hunhe2 } from './mixin.js'
-
 // import { hunhe, hunhe2 } from './mixin.js'
 
 Vue.config.productionTip = false
