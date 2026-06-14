@@ -1,7 +1,7 @@
 export default {
     install(Vue) {
         //添加全局过滤器
-        Vue.filter('upper', function(str) {
+        Vue.filter('upper', function (str) {
             return str.toUpperCase()
         })
 
@@ -22,7 +22,7 @@ export default {
         })
 
         //添加全局方法，所有Vue实例（vm）和组件（vc）都可以调用
-        Vue.prototype.hello = function() {
+        Vue.prototype.hello = function () {
             console.log('hello vue')
         }
     }
