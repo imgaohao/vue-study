@@ -19,7 +19,7 @@ export default {
   // props 可以是数组 ['username', 'age']
   // 也可以是这样 {username: String, age: Number}
   // 还可以是这样 {username: {type: String, required: true}}
-  // 是只读的，不能修改，比 data 数据先初始化，可以在data中使用
+  // 是只读的，不能修改（是指不能重新赋值，对象内容或数组元素可以改的），比 data 数据先初始化，可以在data中使用
   props: {
     username: {
       type: String,
