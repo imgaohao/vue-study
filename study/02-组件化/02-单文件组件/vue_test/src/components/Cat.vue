@@ -6,6 +6,8 @@
 </template>
 
 <script>
+import pubsub from 'pubsub-js'
+
 export default {
   name: 'Cat',
   data() {
@@ -15,19 +17,21 @@ export default {
   },
   methods: {
     sendCatName() {
-      //全局事件总线触发事件
-      this.$bus.$emit('sendCatName', this.name)
-    }
+      pubsub.publish('sendCatName', this.name)
+    },
   },
   mounted() {
-    // 组件挂载完成后，对全局事件总线设置事件
-    this.$bus.$on('sendDogName', (data) => {
+    //记录订阅id
+    this.subId = pubsub.subscribe('sendDogName', (eventName, data) => {
       console.log('我是cat，收到数据：', data)
     })
   },
   beforeDestroy() {
-    // 组件销毁前，自己的自定义事件不需要手动解绑，但是全局事件总线需要手动解绑事件
-    this.$bus.$off('sendDogName')
+    //对订阅id进行取消订阅
+    pubsub.unsubscribe(this.subId)
+
+    //取消所有订阅
+    // pubsub.unsubscribe('sendDogName')
   }
 }
 </script>
