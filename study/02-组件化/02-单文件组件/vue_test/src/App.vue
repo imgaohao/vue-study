@@ -11,7 +11,6 @@ import MyItem from './components/MyItem.vue'
 import MyList from './components/MyList.vue'
 import MyHeader from './components/MyHeader.vue'
 import MyFooter from './components/MyFooter.vue'
-import { nanoid } from 'nanoid'
 
 export default {
   name: 'App',
@@ -23,11 +22,7 @@ export default {
   },
   data() {
     return {
-      list: [
-        { id: nanoid(), name: '学习vue', done: false },
-        { id: nanoid(), name: '学习js', done: true },
-        { id: nanoid(), name: '学习css', done: false }
-      ],
+      list: JSON.parse(localStorage.getItem('list')) || [],
     }
   },
   methods: {
@@ -51,6 +46,14 @@ export default {
       this.list.forEach(item => {
         item.done = allDone
       })
+    }
+  },
+  watch: {
+    list: {
+      handler(newVal) {
+        localStorage.setItem('list', JSON.stringify(newVal))
+      },
+      deep: true
     }
   }
 }
