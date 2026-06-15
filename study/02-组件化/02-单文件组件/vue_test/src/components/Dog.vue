@@ -1,33 +1,34 @@
 <template>
   <div>
     <h1 class="title">{{ name }}</h1>
-    <button @click="sendCatName">给dog发送名称</button>
+    <button @click="sendDogName">给cat发送名称</button>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Cat',
+  name: 'Dog',
   data() {
     return {
-      name: "小白"
+      name: "旺财"
     }
   },
   methods: {
-    sendCatName() {
+    sendDogName() {
       //全局事件总线触发事件
-      this.$bus.$emit('sendCatName', this.name)
+      this.$bus.$emit('sendDogName', this.name)
     }
   },
   mounted() {
     // 组件挂载完成后，对全局事件总线设置事件
-    this.$bus.$on('sendDogName', (data) => {
-      console.log('我是cat，收到数据：', data)
+    this.$bus.$on('sendCatName', (data) => {
+      console.log('我是dog，收到数据：', data)
     })
   },
   beforeDestroy() {
     // 组件销毁前，自己的自定义事件不需要手动解绑，但是全局事件总线需要手动解绑事件
-    this.$bus.$off('sendDogName')
+    this.$bus.$off('sendCatName')
   }
 }
 </script>
+
