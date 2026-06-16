@@ -2,9 +2,14 @@
     <div style="clear: both; width: 300px;">
         <label style="float: left;width: 50%; display: flex; align-items: center;">
             <input type="checkbox" :checked="item.done" @change="handleChange(item.id)">
+            <!-- 非编辑状态下显示文本 -->
             <span v-show="!idEdit" style="margin-left: 4px;">{{ item.name }}</span>
+            <!-- 编辑状态下显示输入框 -->
             <span v-show="idEdit" style="margin-left: 4px;">
-                <input ref="nameInput" type="text" :value="item.name" @blur="save(item.id, $event)" style="width: 100%;">
+                <!-- 失去焦点后保存数据-->
+                <input ref="nameInput" type="text" 
+                :value="item.name" 
+                @blur="save(item.id, $event)" style="width: 100%;">
             </span>
         </label>
         <div style="float: right;">
@@ -21,6 +26,7 @@ export default {
     name: 'MyItem',
     data() {
         return {
+            //记录当前item编辑状态
             idEdit: false
         }
     },
@@ -34,9 +40,15 @@ export default {
         },
         edit(id) {
             this.idEdit = true
+            // 下一次DOM更新完成后，执行指定的回调函数
+            // 当改变数据后，要基于更新后的DOM元素进行操作，要在$nextTick指定的回调函数中操作
             this.$nextTick(() => {
                 this.$refs.nameInput.focus()
             })
+            // 这种方式也可以实现，但是更推荐用官方api的$nextTick函数
+            // setTimeout(() => {
+            //     this.$refs.nameInput.focus()
+            // }, 0)
         },
         save(id, e) {
             this.idEdit = false
@@ -44,6 +56,7 @@ export default {
             if (newValue === '') {
                 return
             }
+            // 保存数据
             pubsub.publish('saveItem', {id, name: newValue})
         },
     }
